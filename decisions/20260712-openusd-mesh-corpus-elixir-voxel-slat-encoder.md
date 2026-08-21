@@ -16,6 +16,7 @@ godot-demo meshes are too few and mixed-license; the mesh encoder was Python-onl
 ## Decision
 
 ### 1. Mesh corpus = OpenUSD copy of thebasemesh.com
+
 Publish the **complete** CC0 base-mesh library from thebasemesh.com as **OpenUSD ASCII** (`.usda`):
 `github.com/fire/thebasemesh-openusd` — **1,254 models** + `thebasemesh.parquet` (ETNF, `asset_uuid =
 uuid5(NAMESPACE, "asset:basemesh:<name>")`, joins the lake). Conversion: Blender **ufbx** importer on the
@@ -24,8 +25,10 @@ real-world meters, n-gon topology preserved** — verified across all 1,254. Enu
 sitemap (each `/asset/<name>` page carries the archive URL). Reader used the `.usda`, not the M3-org glTF copy.
 
 ### 2. `voxel-slat-encoder` = all-Elixir hexagon cluster
+
 `github.com/weftspun/voxel-slat-encoder`. USD-read **and** voxelize in Elixir; only the VAE inference calls
 Python.
+
 - **USD-read**: a **Fine NIF** over the `stage_runtime` OpenUSD SDK (`fabric-openusd-runtime`), reusing
   cloth-fit's `USDReader` logic (`UsdGeomMesh` → V / F (valence preserved) / `primvars:st` UVs). Plugins
   registered from `<usd_root>/lib/usd`.

@@ -51,7 +51,7 @@ interaction_type)` — the entire heading is the key.
   own offline encoder job:
   - **1:1** — `asset_text_embedding` and `asset_image_embedding` (both from the single unified
     **Qwen3-VL-Embedding** space now — ModernBERT dropped), `asset_audio_embedding`, `asset_phenotype`.
-  - **1:N per-token** — the mesh SLAT is a *structured* per-voxel token set (NOT a pooled vector), so it is
+  - **1:N per-token** — the mesh SLAT is a _structured_ per-voxel token set (NOT a pooled vector), so it is
     **`asset_mesh_shape_slat`** (geometry) and **`asset_mesh_texture_slat`** (PBR) — full SLAT = shape ⊕
     texture — each keyed by (`asset_uuid`, token_idx) with (coord, 32-d feats), Hilbert-ordered, then
     **FSQ-quantized per token** into `asset_semantic_ids` (per-modality FSQ codes).

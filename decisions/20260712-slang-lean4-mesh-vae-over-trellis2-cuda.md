@@ -61,11 +61,11 @@ kernels are written and formally checked in Lean, then codegen'd to portable Sla
   to a mesh (`mesh → SLAT → FSQ → SLAT → mesh`) is a useful interpretability / sanity check. Because the
   **input is a mesh**, the inverse target is a **mesh** (FlexiCubes decode → surface), NOT gaussians or a
   radiance field. The stock decode path is the ONLY non-FOSS piece: it pulls **nvdiffrast** (NVIDIA
-  non-commercial). **Decision: implement the mesh rasterizer in Slang** — deliberately the *same* stack as
+  non-commercial). **Decision: implement the mesh rasterizer in Slang** — deliberately the _same_ stack as
   the Slang encoder, so encode and decode are one symmetric invertible pair in one language / runtime /
   precision (portable Vulkan/CPU, in-Godot, Lean4-verifiable end-to-end), rather than a Slang encoder
   bolted onto a foreign rasterizer. **gsplat** (Apache-2.0, gaussians), **PyTorch3D** (BSD) and
-  **Kaolin DIB-R** (Apache-2.0) are FOSS *reference* rasterizers to match numerics against — not the
+  **Kaolin DIB-R** (Apache-2.0) are FOSS _reference_ rasterizers to match numerics against — not the
   choice. Wired as `a_p2_mesh_decode_foss` in Milestone B (the Slang port covers the decoder too), NOT in
   the recommender critical path.
 
@@ -91,6 +91,6 @@ Voxelization (Stage 1) already runs on Windows FOSS-clean.
   the FOSS decoder (`a_p2_mesh_decode_foss`, Slang mesh rasterizer replacing nvdiffrast) buys us in-repo
   mesh reconstruction for free once the port lands — no extra model, one symmetric encode↔decode pair, and
   it doubles as a "what does this semantic code look like?" debugging tool.
-- Relationship: this supersedes the *implementation* of the mesh encoder in
-  [20260712-multimodal-foss-encoder-stack] while keeping its *interface* (mesh → ordered N×32 SLAT token
+- Relationship: this supersedes the _implementation_ of the mesh encoder in
+  [20260712-multimodal-foss-encoder-stack] while keeping its _interface_ (mesh → ordered N×32 SLAT token
   set → per-token FSQ).

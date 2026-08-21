@@ -1,6 +1,7 @@
 ### 1. **Dense Vectors**
 
 - **Fields**:
+
   - `godot_scene_input` (VARCHAR): Raw text godot engine scene (UTF-8).
   - `xmp_jsonld_input` (VARCHAR): Unicode jsonld xmp text (UTF-8).
   - `image_input` (VARCHAR): RGBA pixel data (e.g., base64-encoded PNG).

@@ -17,7 +17,7 @@ decision-makers: K. S. Ernest (iFire) Lee
 [20260712-multimodal-foss-encoder-stack] gives each modality its own FOSS encoder writing an independent
 ETNF relation, and [20260712-fsq-over-rqvae-for-semantic-ids] fixes the quantizer as `ResidualFSQ`. What
 was left underspecified is **how the modalities combine into one semantic ID**. The encoder-stack doc had
-a one-liner — *"Fused modality vector → ResidualFSQ → per-asset semantic ID"* — but its mesh notes also
+a one-liner — _"Fused modality vector → ResidualFSQ → per-asset semantic ID"_ — but its mesh notes also
 mused about per-token ordered code sets, and `scripts/mesh_semantic_ids.py` only ever concatenated the
 two mesh blocks (shape+texture). This record settles it for all modalities.
 
@@ -29,14 +29,14 @@ from 2 blocks to 6 — the same standardize → concat → FSQ path, now spannin
 
 ### 1. Each modality → one vector
 
-| Modality | Relation | Feature col | Reduction to one vector |
-|----------|----------|-------------|-------------------------|
-| text | `asset_text_embedding` | `text_embedding` | encoder embedding as-is (Qwen3-VL, 2048-d) |
-| image | `asset_image_embedding` | `image_embedding` | encoder embedding as-is (Qwen3-VL) |
-| mesh-shape | `asset_mesh_shape_slat` | `slat_feats` | **mean-pool** the SLAT token set (`slat_semantic_ids.slat.pool_tokens`) |
-| mesh-texture | `asset_mesh_texture_slat` | `slat_feats` | mean-pool the SLAT token set |
-| audio | `asset_audio_clap` | `audio_embedding` | CLAP embedding as-is |
-| phenotype | `asset_body_phenotype` | `phenotype_params` | canonical ANNY param vector as-is |
+| Modality     | Relation                  | Feature col        | Reduction to one vector                                                 |
+| ------------ | ------------------------- | ------------------ | ----------------------------------------------------------------------- |
+| text         | `asset_text_embedding`    | `text_embedding`   | encoder embedding as-is (Qwen3-VL, 2048-d)                              |
+| image        | `asset_image_embedding`   | `image_embedding`  | encoder embedding as-is (Qwen3-VL)                                      |
+| mesh-shape   | `asset_mesh_shape_slat`   | `slat_feats`       | **mean-pool** the SLAT token set (`slat_semantic_ids.slat.pool_tokens`) |
+| mesh-texture | `asset_mesh_texture_slat` | `slat_feats`       | mean-pool the SLAT token set                                            |
+| audio        | `asset_audio_clap`        | `audio_embedding`  | CLAP embedding as-is                                                    |
+| phenotype    | `asset_body_phenotype`    | `phenotype_params` | canonical ANNY param vector as-is                                       |
 
 Each vector is L2-normalized per modality.
 

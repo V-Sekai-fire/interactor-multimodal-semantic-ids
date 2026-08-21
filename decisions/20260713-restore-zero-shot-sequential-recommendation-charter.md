@@ -23,16 +23,17 @@ ID from the session's ID sequence. Because IDs derive from content, **unseen ite
 without retraining** — the zero-shot property (TIGER-style semantic-ID retrieval): a brand-new asset
 gets an ID by encoding it, and any predicted ID resolves against the current index.
 
-Terminology guard: "generative retrieval" here means decoding an *identifier*, never content. **No
+Terminology guard: "generative retrieval" here means decoding an _identifier_, never content. **No
 image/3D/audio synthesis, no reconstruction losses, no render supervision — permanently out of scope.**
 
 ## Evidence from Kyvo (arXiv:2506.08002; full PDF reviewed 2026-07-13) — retrieval lens only
 
 Taken:
-- **Discrete token IDs carry discriminative signal**: Kyvo's *recognition* task (image → 3D tokens)
+
+- **Discrete token IDs carry discriminative signal**: Kyvo's _recognition_ task (image → 3D tokens)
   works autoregressively over the same codebook used elsewhere — supporting next-ID prediction over
   codebook tokens as a retrieval mechanism.
-- **Codebook capacity**: their 8192-entry codebook is heavy-tailed but *fully utilized*, and
+- **Codebook capacity**: their 8192-entry codebook is heavy-tailed but _fully utilized_, and
   "increasing codebook size did not help" — guidance that our per-stage FSQ grids (thousands of codes)
   are in a sane regime; watch utilization, not size.
 - **Hybrid number encoding** (learned embeddings + sine–cosine) was more robust for coordinates —

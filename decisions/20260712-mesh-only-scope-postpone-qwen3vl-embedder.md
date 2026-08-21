@@ -41,7 +41,7 @@ verified) and is the highest-signal content feature for the V-Sekai asset catalo
   (`lib/bumblebee.ex` maps) → `a_e2e` (cosine ≥ 0.999 vs golden `image_embedding`) → `a_wire`
   (`unified-modal-embedder`).
 - **Spec + golden**: `notes/qwen3_vl_spec.md` in the fork; fixtures `test/fixtures/qwen3_vl/{golden.json,
-  golden_image.png,vision_dump.npz}` (+ the 1.6 GB `vision_probe.safetensors`, gitignored, regenerable).
+golden_image.png,vision_dump.npz}` (+ the 1.6 GB `vision_probe.safetensors`, gitignored, regenerable).
 - **Backend**: EXLA has no Windows build → use **Torchx** (short build path, e.g. `C:\q3vl`); EXLA on the
   Linux Burrito target.
 - **Full parked plan**: `~/.claude/plans/study-c-users-ernes-desktop-gait-classif-sorted-squid.md`.
