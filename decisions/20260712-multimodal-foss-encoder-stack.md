@@ -51,27 +51,27 @@ encoders/multimodal.py::Qwen3VLEncoder`, `scripts/encode_text.py`). **Load fp16 
   option; it would not cover the native o-voxel voxelization kernel, so it is not needed now.)
   **VERIFIED 2026-07-12:** real mesh→O-Voxel voxelization runs on Windows + torch 2.8 + RTX 4090,
   FOSS-clean (icosphere 2562v/5120f → 18752 voxels; NO triton/nvdiffrast/cv2 — just MIT `o_voxel._C`).
-  Two o*voxel quirks handled in `vsk_recsys/encoders/mesh.py`: (1) bypass the render-eager package
+  Two `o_voxel` quirks handled in `vsk_recsys/encoders/mesh.py`: (1) bypass the render-eager package
   `__init__`, import the voxelizer submodule directly; (2) pass `aabb` on CPU (their code `.cuda()`s aabb
   but calls a `*_cpu` kernel). **Stage-2 shape-VAE encode VERIFIED on WSL2 Fedora (torch 2.6/cu124, RTX
   4090):** mesh → O-Voxel → `FlexiDualGridVaeEncoder` (709 MB MIT weights) → SLAT `(N, 32)`. Built
   **FlexGEMM + o-voxel from source** — FlexGEMM-source ships the **triton GEMM kernels the Windows
   prebuilt wheel lacked** (the exact wall on Windows). Two correctness points (raised in review):
   (a) **deterministic** — the VAE encoder returns the posterior mean (`sample_posterior=False`, `.eval()`);
-  repeated encodes diff = 0.0, so same asset → same codes. (b) the SLAT is a *structured* per-voxel
+  repeated encodes diff = 0.0, so same asset → same codes. (b) the SLAT is a _structured_ per-voxel
   latent; we keep the `(N, 32)` tokens + coords so structure survives for generation. For the **semantic
   ID**, the mesh block is **mean-pooled to one vector** and concatenated with the other modalities per
   [20260713-multimodal-residual-fsq-semantic-ids] (concat → one `ResidualFSQ`); the pooling and FSQ kernel
   are reused from `slat-semantic-ids`. (c) **token order matters** for the structured latent — ordered by
-  O-Voxel's **vetted** `serialize.encode_seq(
-mode="hilbert")` `_C` kernel (verified true Hilbert: all consecutive steps = 1.0 on a dense grid, vs
+  O-Voxel's **vetted** `serialize.encode_seq(mode="hilbert")`
+  `_C` kernel (verified true Hilbert: all consecutive steps = 1.0 on a dense grid, vs
   z-order 1.44/max-jump 9.95). Not matching any reference (sparse-conv encoder is order-independent), so
   Hilbert chosen for locality; a hand-rolled Hilbert was buggy → always use O-Voxel's `_C`. (d) **full
   mesh = shape ⊕ texture** — `shape_enc` (geometry) AND `tex_enc` (`SparseUnetVaeEncoder`, 6-ch PBR
   `[base_color,metallic,roughness,alpha]` via `textured_mesh_to_volumetric_attr`) both VERIFIED (textured
   box → shape (56,32) + texture (56,32), deterministic). Recipe in `vsk_recsys/encoders/mesh.py`
   (`encode_to_slat` / `encode_texture_to_slat` / `canonical_order`) + `scripts/mesh_encode_linux.py`
-  (writes `asset_mesh*{shape,texture}\_slat` ETNF relations).
+  (writes `asset_mesh_{shape,texture}_slat` ETNF relations).
 - **Audio**: **LAION-CLAP** (Apache-2.0) — shared text↔image↔audio space (cross-modal, not an acoustic
   silo). Rejected: **Microsoft msclap** (MS-PL — OSI but non-standard/copyleft-ish).
 - **Body phenotype** (an **item** feature for humanoid/character assets): **rf-detr** 2D COCO keypoints
