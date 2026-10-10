@@ -12,4 +12,4 @@ There is nothing to build. `prek run --all-files` checks the Markdown formatting
 
 ## Licence
 
-The licence is not stated.
+MIT. See [LICENSE](LICENSE).
